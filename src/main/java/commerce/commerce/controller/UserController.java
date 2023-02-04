@@ -12,10 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     private UserService userService;
-    
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String setAddNewUser(@RequestBody User email, @RequestBody User name, @RequestBody User phone){
-        userService.setAddNewUser(email.getEmail(), name.getName(), phone.getPhone());
-        return "success fully registered";
+        String userEmailPhone = userService.getUserEmailPhone(email.getEmail(), phone.getPhone());
+        if(userEmailPhone == "1"){
+            userService.setAddNewUser(email.getEmail(), name.getName(), phone.getPhone());
+            return "success fully registered";
+        }else {
+            return "user Already exists";
+        }
+
     }
 }
