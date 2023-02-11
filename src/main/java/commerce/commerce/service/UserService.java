@@ -8,17 +8,24 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-    public void setAddNewUser(String email, String name, String phone){userRepository.setAddNewUser(email,name,phone);}
 
-    public String getUserEmailPhone(String email, String phone){userRepository.getUserEmailPhone(email, phone);
-        if(email != "" || phone != ""){
-            return "User already exist";
-        }else{
+    //Register
+    public void setAddNewUser( String email, String password, String name, String phone){userRepository.setAddNewUser(email,password,name,phone);}
+
+    //check existing user
+    public String getUserEmailPhone(String email, String phone){
+        int total = userRepository.getUserEmailPhone(email, phone);
+        if (total >= 1){
             return "1";
+        }else{
+            return "0";
         }
     }
 
-
+    public String loginUser(String email){
+        String password = userRepository.loginUser(email);
+        return password;
+    }
 
 
 
