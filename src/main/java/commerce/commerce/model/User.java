@@ -37,6 +37,9 @@ public class User {
         this.phone = phone;
     }
 
+//    @Override
+    public String getUserName(){return email; }
+
     public Long getId(){return id;}
     public String getName(){return name;}
     public void setName(String name){this.name=name;}

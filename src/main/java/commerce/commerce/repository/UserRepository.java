@@ -9,14 +9,24 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
 public interface UserRepository extends JpaRepository<User, Integer> {
+
+    Optional<User> findByEmail(String email);
+
+
+
     String addNewUser = "INSERT INTO user(email, password, name, phone) VALUES(:email, :password, :name, :phone)";
     @Modifying
     @Query(nativeQuery = true, value = addNewUser)
-    public void setAddNewUser(@Param("email") String email, @Param("password") String password, @Param("name") String name, @Param("phone") String phone);
+    public void setAddNewUser(
+            @Param("email") String email,
+            @Param("password") String password,
+            @Param("name") String name,
+            @Param("phone") String phone);
 
 
     //Check existence of email and phone number
@@ -28,4 +38,34 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     String loginUser = "SELECT password FROM user WHERE email = :email";
     @Query(nativeQuery = true, value = loginUser)
     public String loginUser(@Param("email") String email);
+
+    //get user by id
+    String aUser= "SELECT id FROM user where user.id = :id";
+    @Query(nativeQuery = true, value = aUser)
+    public List<User> getUserInfo(@Param("id") Long id);
+
+    //update user information
+    String updateUserInfo = "UPDATE user SET name=:name, email=:email, phone=:phone WHERE user.id = :id";
+    @Query(nativeQuery = true, value = updateUserInfo)
+    public String updateUser(
+            @Param("name") String name,
+            @Param("email") String email,
+            @Param("phone") String phone,
+            @Param("id") int id);
+
+    //delete user
+    String deleteUser = "Delete * from user WHERE user.id = :id";
+    @Query(nativeQuery = true, value= deleteUser)
+    public String userDeleted(@Param("id") Long id);
+
+    //getUserName
+    String getUserName = "SELECT email from user WHERE email = :email";
+    @Query(nativeQuery = true, value = getUserName)
+    public List<User> getUserNameByEmail(@Param("email") String email);
+
+
+
+
+
+
 }
