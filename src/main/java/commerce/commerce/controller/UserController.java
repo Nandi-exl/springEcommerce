@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 public class UserController {
@@ -29,8 +31,8 @@ public class UserController {
             return "please don't leave any blank";
         }else {
             String userEmailPhone = userService.getUserEmailPhone(newUser.getEmail(), newUser.getPhone());
-            String papper = "thePapperoni";
-            String hashedPassword = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt()+papper);
+            String papper = "thisispapper";
+            String hashedPassword = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt() + papper);
             if(userEmailPhone == "0"){
                 userService.setAddNewUser(newUser.getEmail(), hashedPassword, newUser.getName(), newUser.getPhone());
                 return "successfully registered";
@@ -47,8 +49,8 @@ public class UserController {
         String hashedPassword = userService.loginUser(user.getEmail());
         String passwordInput = user.getPassword();
         //decript hashed password
-        if (BCrypt.checkpw(hashedPassword, passwordInput)){
-            System.out.println("this is hashed password "+passwordInput);
+        if (BCrypt.checkpw(passwordInput, hashedPassword)){
+            System.out.println("this is hashed password "+hashedPassword);
             System.out.println("It matches");
             return "success login";
         }
@@ -57,5 +59,11 @@ public class UserController {
             return "invalid login";
         }
 
+    }
+
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    public List<User> getUserById(@PathVariable("id") Long id){
+        List<User> getUser = userService.getUser(id);
+        return getUser;
     }
 }
