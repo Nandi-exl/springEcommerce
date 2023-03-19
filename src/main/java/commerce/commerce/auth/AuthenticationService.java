@@ -2,7 +2,9 @@ package commerce.commerce.auth;
 
 import commerce.commerce.config.JwtService;
 import commerce.commerce.repository.AuthRepository;
+import commerce.commerce.token.Token;
 import commerce.commerce.token.TokenRepository;
+import commerce.commerce.token.TokenType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import commerce.commerce.model.User;
@@ -64,7 +66,7 @@ public class AuthenticationService {
     }
 
     private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+        var validUserTokens = tokenRepository.findAllValidTokenUser(user.getId());
         if (validUserTokens.isEmpty())
             return;
         validUserTokens.forEach(token -> {
