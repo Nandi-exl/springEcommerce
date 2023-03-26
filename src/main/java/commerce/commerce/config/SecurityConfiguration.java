@@ -26,7 +26,7 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("")
+                .requestMatchers("/api/v1/auth/**")//this will prevent direct access to what ever endpoint that contain this url;
                 .permitAll()
                 .anyRequest()
                 .authenticated()

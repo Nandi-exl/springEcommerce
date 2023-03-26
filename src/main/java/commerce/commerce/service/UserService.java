@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -14,7 +15,9 @@ public class UserService {
     private UserRepository userRepository;
 
     //Register
-    public void setAddNewUser( String email, String password, String name, String phone){userRepository.setAddNewUser(email,password,name,phone);}
+    public void setAddNewUser( String email, String password, String name, String phone){
+        userRepository.setAddNewUser(email,password,name,phone);
+    }
 
     //check existing user
     public String getUserEmailPhone(String email, String phone){
@@ -27,14 +30,22 @@ public class UserService {
     }
 
     //login
+//    public String loginUser(String email){
+//        String password = userRepository.loginUser(email);
+//        return password;
+//    }
+
     public String loginUser(String email){
-        String password = userRepository.loginUser(email);
-        return password;
+        userRepository.loginUser(email);
+        return "user login";
     }
+
+
 
     //get specific user by id
     public List<User> getUser(Long id) {
         List<User> getUser = userRepository.getUserInfo(id);
+        System.out.print("giesss");
         return getUser;
     }
 
@@ -44,8 +55,8 @@ public class UserService {
     }
 
     //getUserbyemail
-    public List<User> getUserName(String email){
-        List<User> userEmail = userRepository.getUserNameByEmail(email);
+    public Optional<User> getUserName(String email){
+        Optional<User> userEmail = userRepository.getUserNameByEmail(email);
         return userEmail;
     }
 

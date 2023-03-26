@@ -13,13 +13,14 @@ import java.util.List;
 
 
 @RestController
+
 public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/test_bef", method = RequestMethod.POST)
     public String setAddNewUser(@RequestBody User newUser){
         // ResponseEntity<User> use this on function to return list new user in json format
         //can not let anything empty
@@ -61,9 +62,15 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/v1/{id}", method = RequestMethod.GET) //this is protected route
     public List<User> getUserById(@PathVariable("id") Long id){
         List<User> getUser = userService.getUser(id);
         return getUser;
     }
+
+    @RequestMapping(value = "/api/v1/demo-controller", method = RequestMethod.GET)
+    public ResponseEntity<String> sayHello() {
+        return ResponseEntity.ok("Hello from secured endpoint");
+    }
+
 }
