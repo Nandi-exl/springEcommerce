@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository repository;
-//    private final TokenRepository tokenRepository;
+//  private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
@@ -38,7 +38,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .phone(request.getPhone())
                 .build();
-//        var savedUser = repository.save(user); //not saving it intoSql DB
+//      var savedUser = repository.save(user); //not saving it intoSql DB
         System.out.println(user);
         var jwtToken = jwtService.generateToken(user);
         //save user Into database
@@ -63,7 +63,7 @@ public class AuthenticationService {
 //        }
 
         //before createToken check the userLoginCredential first
-       var checkPass = passwordEncoder.matches("passInput", "encodedPassfromDb");
+       var checkPass = passwordEncoder.matches(request.getPassword(), repository.loginUser(request.getEmail()));
         if(checkPass){
             var user = repository.getUserNameByEmail(request.getEmail())
                     .orElseThrow();
