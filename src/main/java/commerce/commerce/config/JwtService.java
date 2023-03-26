@@ -38,13 +38,10 @@ public class JwtService {
     }
 
     private Key getSignInKey(){
-        byte[] keybytes = Decoders.BASE64.decode(SECRET_KEY);
-        return Keys.hmacShaKeyFor(keybytes);
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
-    //generate token without extract claims
-    public String generateToken(UserDetails userDetails){
-        return generateToken(new HashMap<>(), userDetails);
-    }
+
 
     //generate token
     public String generateToken(
@@ -61,6 +58,10 @@ public class JwtService {
                 .compact();
     }
 
+    //generate token without extract claims
+    public String generateToken(UserDetails userDetails){
+        return generateToken(new HashMap<>(), userDetails);
+    }
 
 
     //check expiration token

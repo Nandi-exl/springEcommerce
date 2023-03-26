@@ -17,8 +17,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByEmail(String email);
 
-
-
     String addNewUser = "INSERT INTO user(email, password, name, phone) VALUES(:email, :password, :name, :phone)";
     @Modifying
     @Query(nativeQuery = true, value = addNewUser)
@@ -40,7 +38,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public String loginUser(@Param("email") String email);
 
     //get user by id
-    String aUser= "SELECT id FROM user where user.id = :id";
+    String aUser= "SELECT * FROM user where user.id = :id";
     @Query(nativeQuery = true, value = aUser)
     public List<User> getUserInfo(@Param("id") Long id);
 
@@ -59,9 +57,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     public String userDeleted(@Param("id") Long id);
 
     //getUserName
-    String getUserName = "SELECT email from user WHERE email = :email";
+    String getUserName = "SELECT * from user WHERE email = :email";
     @Query(nativeQuery = true, value = getUserName)
-    public List<User> getUserNameByEmail(@Param("email") String email);
+    public Optional<User> getUserNameByEmail(@Param("email") String email);
 
 
 
